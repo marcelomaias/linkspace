@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/db";
+import { links } from "@/lib/schema";
+import { eq, asc } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import LinkManager from "@/components/LinkManager";
@@ -10,10 +12,11 @@ export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/login");
 
-  const links = await prisma.link.findMany({
-    where: { userId: session.user.id },
-    orderBy: { order: "asc" },
-  });
+  const userLinks = await db
+    .select()
+    .from(links)
+    .where(eq(links.userId, session.user.id))
+    .orderBy(asc(links.order));
 
   return (
     <div className="wrapper py-8">
@@ -33,7 +36,7 @@ export default async function DashboardPage() {
           </Link>
         )}
       </div>
-      <LinkManager initialLinks={links} />
+      <LinkManager initialLinks={userLinks} />
     </div>
   );
 }

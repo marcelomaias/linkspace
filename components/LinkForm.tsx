@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import type { Link } from "@prisma/client";
+import type { Link } from "@/lib/schema";
 import { createLink, updateLink } from "@/lib/actions";
 import ImageUpload from "@/components/ImageUpload";
 

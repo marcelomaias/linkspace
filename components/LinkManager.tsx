@@ -4,7 +4,7 @@ import { useState, useOptimistic, useTransition } from "react";
 import { deleteLink, reorderLinks } from "@/lib/actions";
 import LinkCard from "@/components/LinkCard";
 import LinkForm from "@/components/LinkForm";
-import type { Link } from "@prisma/client";
+import type { Link } from "@/lib/schema";
 import {
   DndContext,
   closestCenter,

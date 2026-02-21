@@ -1,4 +1,6 @@
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/db";
+import { users, links } from "@/lib/schema";
+import { eq, asc } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import UserAvatar from "@/components/UserAvatar";
 import LinkCard from "@/components/LinkCard";
@@ -15,18 +17,20 @@ export async function generateMetadata({ params }: Props) {
 export default async function PublicProfilePage({ params }: Props) {
   const { username } = await params;
 
-  const user = await prisma.user.findUnique({
-    where: { username },
-    include: {
-      links: { orderBy: { order: "asc" } },
-    },
-  });
-
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
   if (!user) notFound();
+
+  const userLinks = await db
+    .select()
+    .from(links)
+    .where(eq(links.userId, user.id))
+    .orderBy(asc(links.order));
 
   return (
     <div className="public-profile">
-      {/* Hero header */}
       <div className="hero-strip py-16">
         <div className="wrapper flex flex-col items-center gap-4 text-center">
           <UserAvatar user={user} size={96} />
@@ -37,9 +41,8 @@ export default async function PublicProfilePage({ params }: Props) {
         </div>
       </div>
 
-      {/* Links */}
       <div className="wrapper max-w-xl py-10">
-        {user.links.length === 0 ? (
+        {userLinks.length === 0 ? (
           <p
             className="text-center text-sm"
             style={{ color: "var(--color-text-muted)" }}
@@ -48,7 +51,7 @@ export default async function PublicProfilePage({ params }: Props) {
           </p>
         ) : (
           <div className="flex flex-col gap-3">
-            {user.links.map((link) => (
+            {userLinks.map((link) => (
               <LinkCard key={link.id} link={link} />
             ))}
           </div>

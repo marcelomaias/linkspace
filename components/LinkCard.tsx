@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Link } from "@prisma/client";
+import type { Link } from "@/lib/schema";
 import { removeHttp } from "@/lib/utils";
 import { LinkIcon } from "lucide-react";
 
@@ -16,7 +16,7 @@ export default function LinkCard({
       target="_blank"
       rel="noopener noreferrer"
       className="link-card"
-      style={{ paddingLeft: draggable ? "2.25rem" : "1rem" }}
+      style={{ paddingLeft: draggable ? "2.5rem" : "1rem" }}
     >
       {/* Icon */}
       <div className="link-card-icon">
