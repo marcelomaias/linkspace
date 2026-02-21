@@ -88,41 +88,40 @@ export default function ImageUpload({
           </div>
         )}
 
-        <div className="flex flex-col gap-1">
-          <UploadButton
-            endpoint={endpoint}
-            disabled={disabled}
-            onBeforeUploadBegin={async (files) => {
-              setError(null);
-              const file = files[0];
-              if (!file) return files;
-
-              // Show local preview immediately
-              setPreview(URL.createObjectURL(file));
-
-              const err = await validateDimensions(file, maxWidth, maxHeight);
-              if (err) {
-                setError(err);
-                setPreview(null);
-                return []; // abort upload
-              }
-              return files;
-            }}
-            onClientUploadComplete={(res) => {
-              const url = res?.[0]?.url;
-              if (url) {
-                setPreview(url);
-                onChange(url);
-              }
-            }}
-            onUploadError={(err) => {
-              setError(err.message ?? "Upload failed");
-            }}
-            appearance={{
-              button: "btn-secondary text-sm !text-[var(--color-text)]",
-              allowedContent: "hidden",
-            }}
-          />
+        <div className="flex flex-col gap-1 min-w-0">
+          <div className="max-w-[200px]">
+            <UploadButton
+              endpoint={endpoint}
+              disabled={disabled}
+              onBeforeUploadBegin={async (files) => {
+                setError(null);
+                const file = files[0];
+                if (!file) return files;
+                setPreview(URL.createObjectURL(file));
+                const err = await validateDimensions(file, maxWidth, maxHeight);
+                if (err) {
+                  setError(err);
+                  setPreview(null);
+                  return [];
+                }
+                return files;
+              }}
+              onClientUploadComplete={(res) => {
+                const url = res?.[0]?.url;
+                if (url) {
+                  setPreview(url);
+                  onChange(url);
+                }
+              }}
+              onUploadError={(err) => {
+                setError(err.message ?? "Upload failed");
+              }}
+              appearance={{
+                button: "btn-secondary text-sm !w-auto max-w-[200px] truncate",
+                allowedContent: "hidden",
+              }}
+            />
+          </div>
 
           {preview && !disabled && (
             <button
