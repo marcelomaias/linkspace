@@ -59,17 +59,6 @@ export default function SignupPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="auth-form">
-        {/* Profile picture — shown first so it feels like an avatar setup */}
-        <ImageUpload
-          endpoint="signupPicture"
-          value={pictureUrl}
-          onChange={setPictureUrl}
-          shape="circle"
-          size={64}
-          label="Profile picture"
-          disabled={pending}
-        />
-
         <div className="form-group">
           <label className="form-label">Name</label>
           <input
@@ -125,6 +114,16 @@ export default function SignupPage() {
             autoComplete="new-password"
           />
         </div>
+
+        <ImageUpload
+          endpoint="signupPicture"
+          value={pictureUrl}
+          onChange={setPictureUrl}
+          shape="circle"
+          size={64}
+          label="Profile picture (optional)"
+          disabled={pending}
+        />
 
         {error && <p className="form-error">{error}</p>}
 

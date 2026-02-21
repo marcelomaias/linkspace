@@ -65,7 +65,7 @@ export default function ImageUpload({
     <div className="flex flex-col gap-1.5">
       {label && <span className="form-label">{label}</span>}
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 overflow-hidden">
         {/* Preview */}
         {preview && (
           <div
@@ -88,40 +88,38 @@ export default function ImageUpload({
           </div>
         )}
 
-        <div className="flex flex-col gap-1 min-w-0">
-          <div className="max-w-[200px]">
-            <UploadButton
-              endpoint={endpoint}
-              disabled={disabled}
-              onBeforeUploadBegin={async (files) => {
-                setError(null);
-                const file = files[0];
-                if (!file) return files;
-                setPreview(URL.createObjectURL(file));
-                const err = await validateDimensions(file, maxWidth, maxHeight);
-                if (err) {
-                  setError(err);
-                  setPreview(null);
-                  return [];
-                }
-                return files;
-              }}
-              onClientUploadComplete={(res) => {
-                const url = res?.[0]?.url;
-                if (url) {
-                  setPreview(url);
-                  onChange(url);
-                }
-              }}
-              onUploadError={(err) => {
-                setError(err.message ?? "Upload failed");
-              }}
-              appearance={{
-                button: "btn-secondary text-sm !w-auto max-w-[200px] truncate",
-                allowedContent: "hidden",
-              }}
-            />
-          </div>
+        <div className="flex flex-col gap-1 overflow-hidden min-w-0 flex-1">
+          <UploadButton
+            endpoint={endpoint}
+            disabled={disabled}
+            onBeforeUploadBegin={async (files) => {
+              setError(null);
+              const file = files[0];
+              if (!file) return files;
+              setPreview(URL.createObjectURL(file));
+              const err = await validateDimensions(file, maxWidth, maxHeight);
+              if (err) {
+                setError(err);
+                setPreview(null);
+                return [];
+              }
+              return files;
+            }}
+            onClientUploadComplete={(res) => {
+              const url = res?.[0]?.url;
+              if (url) {
+                setPreview(url);
+                onChange(url);
+              }
+            }}
+            onUploadError={(err) => {
+              setError(err.message ?? "Upload failed");
+            }}
+            appearance={{
+              button: "btn-secondary text-sm !w-full overflow-hidden",
+              allowedContent: "hidden",
+            }}
+          />
 
           {preview && !disabled && (
             <button
@@ -130,7 +128,7 @@ export default function ImageUpload({
                 setPreview(null);
                 onChange(null);
               }}
-              className="text-xs"
+              className="text-xs text-left"
               style={{ color: "var(--color-text-subtle)" }}
             >
               Remove
