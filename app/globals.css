@@ -1,0 +1,404 @@
+@import "tailwindcss";
+
+/* ─── Font tokens ───────────────────────────────────────────────────────────── */
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-plus-jakarta);
+}
+
+/* ─── Static color tokens (brand, never change) ─────────────────────────────── */
+@theme inline {
+  --color-brand: #e8442a;
+  --color-brand-hover: #d63a22;
+  --color-brand-light: #fbe9e7;
+}
+
+/* ─── Adaptive color tokens (switch between light/dark) ─────────────────────── */
+:root {
+  --color-bg: #f5f4f2;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0efed;
+  --color-border: #e2e0dc;
+  --color-text: #1a1917;
+  --color-text-muted: #6b6865;
+  --color-text-subtle: #a09d9a;
+}
+
+.dark {
+  --color-bg: #111110;
+  --color-surface: #1c1c1a;
+  --color-surface-2: #252523;
+  --color-border: #2e2e2c;
+  --color-text: #edebe8;
+  --color-text-muted: #a09d9a;
+  --color-text-subtle: #6b6865;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-bold leading-tight tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  h4 {
+    @apply text-xl;
+  }
+
+  p {
+    @apply leading-relaxed;
+    color: var(--color-text-muted);
+  }
+
+  a {
+    @apply transition-colors duration-150;
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: #fff;
+  }
+}
+
+/* ─── Components ────────────────────────────────────────────────────────────── */
+@layer components {
+  /* ── Layout ── */
+  .wrapper {
+    @apply max-w-4xl mx-auto px-4 md:px-6;
+  }
+
+  /* ── Surfaces ── */
+  .surface {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    @apply rounded-xl;
+  }
+
+  .surface-2 {
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    @apply rounded-xl;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white;
+    background-color: var(--color-brand);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-brand-hover);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--color-border);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+    background-color: transparent;
+    color: var(--color-text-muted);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white;
+    background-color: #dc2626;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background-color: #b91c1c;
+  }
+
+  .btn-icon {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-150 cursor-pointer;
+    color: var(--color-text-muted);
+  }
+
+  .btn-icon:hover {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  /* ── Forms ── */
+  .form-group {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .form-label {
+    @apply text-xs font-semibold uppercase tracking-wide;
+    color: var(--color-text-muted);
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2 rounded-lg text-sm outline-none transition-all duration-150;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  .form-input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--color-brand) 15%, transparent);
+  }
+
+  .form-input::placeholder {
+    color: var(--color-text-subtle);
+  }
+
+  .form-error {
+    @apply text-xs font-medium;
+    color: #dc2626;
+  }
+
+  /* ── Link card ── */
+  .link-card {
+    @apply flex items-center gap-4 p-4 transition-all duration-150 no-underline rounded-xl;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  .link-card:hover {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px
+      color-mix(in srgb, var(--color-brand) 10%, transparent);
+  }
+
+  .link-card-icon {
+    @apply shrink-0 w-10 h-10 flex items-center justify-center;
+  }
+
+  .link-card-icon-placeholder {
+    @apply w-10 h-10 rounded-lg flex items-center justify-center;
+    background-color: var(--color-brand-light);
+    color: var(--color-brand);
+  }
+
+  .link-card-label {
+    @apply font-semibold text-sm truncate;
+    color: var(--color-text);
+  }
+
+  .link-card-url {
+    @apply text-xs truncate;
+    color: var(--color-text-subtle);
+  }
+
+  /* ── Drag & drop ── */
+  .drag-handle {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 z-10 cursor-grab active:cursor-grabbing;
+    color: var(--color-text-subtle);
+  }
+
+  .drag-handle:hover {
+    color: var(--color-text-muted);
+  }
+
+  .link-actions {
+    @apply absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10;
+  }
+
+  .link-edit-overlay {
+    @apply absolute inset-x-0 top-0 z-20 rounded-xl p-4;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-brand);
+  }
+
+  /* ── Modal ── */
+  .modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-box {
+    @apply w-full max-w-lg p-6 rounded-xl;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    @apply flex flex-col items-center justify-center py-16 gap-3 rounded-xl;
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Auth ── */
+  .auth-card {
+    @apply w-full max-w-md p-8 flex flex-col gap-6 rounded-xl;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .auth-form {
+    @apply flex flex-col gap-4;
+  }
+
+  .auth-footer {
+    @apply text-sm text-center;
+    color: var(--color-text-muted);
+  }
+
+  .auth-link {
+    @apply font-medium;
+    color: var(--color-brand);
+  }
+
+  .auth-link:hover {
+    color: var(--color-brand-hover);
+  }
+
+  /* ── Header ── */
+  .surface-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    @apply sticky top-0 z-50;
+  }
+
+  .logo {
+    @apply font-heading font-bold text-lg tracking-tight;
+    color: var(--color-text);
+  }
+
+  .logo-accent {
+    color: var(--color-brand);
+  }
+
+  /* ── Nav ── */
+  .nav-link {
+    @apply text-sm font-medium transition-colors duration-150;
+    color: var(--color-text-muted);
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  /* ── Badges ── */
+  .badge-brand {
+    @apply inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold;
+    background-color: var(--color-brand-light);
+    color: var(--color-brand);
+  }
+
+  .badge-neutral {
+    @apply inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold;
+    background-color: var(--color-surface-2);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Spinner ── */
+  .spinner {
+    @apply inline-block rounded-full border-2 border-current border-t-transparent animate-spin;
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ── Avatar ── */
+  .avatar {
+    @apply rounded-full object-cover shrink-0;
+    box-shadow: 0 0 0 2px var(--color-border);
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-widest;
+    color: var(--color-text-subtle);
+  }
+
+  /* ── Hero ── */
+  .hero-strip {
+    background-color: var(--color-brand);
+    @apply text-white;
+  }
+
+  /* ── Admin table ── */
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table th {
+    @apply text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .data-table td {
+    @apply px-4 py-3;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+  .data-table tr:hover td {
+    background-color: var(--color-surface-2);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    @apply w-full h-px;
+    background-color: var(--color-border);
+  }
+
+  /* ── Username prefix ── */
+  .username-prefix {
+    @apply px-3 py-2 text-sm rounded-l-lg border border-r-0;
+    background-color: var(--color-surface-2);
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+}
