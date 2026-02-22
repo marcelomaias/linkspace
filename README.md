@@ -1,20 +1,20 @@
 # LinkSpace
 
-A clean, minimal link-in-bio app. Built with Next.js 16, Better Auth, Prisma, Neon, and Uploadthing.
+A clean, minimal link-in-bio app. Built with Next.js 16, Better Auth, Drizzle ORM, Neon, and Uploadthing.
 
 ---
 
 ## Stack
 
-| Concern | Technology |
-|---|---|
-| Framework | Next.js 16 |
-| Auth | Better Auth |
-| Database | Neon (serverless Postgres) |
-| ORM | Prisma |
-| File uploads | Uploadthing |
-| Styling | Tailwind CSS v4 |
-| Deployment | Vercel |
+| Concern      | Technology                 |
+| ------------ | -------------------------- |
+| Framework    | Next.js 16                 |
+| Auth         | Better Auth                |
+| Database     | Neon (serverless Postgres) |
+| ORM          | Drizzle                    |
+| File uploads | Uploadthing                |
+| Styling      | Tailwind CSS v4            |
+| Deployment   | Vercel                     |
 
 ---
 
@@ -23,7 +23,7 @@ A clean, minimal link-in-bio app. Built with Next.js 16, Better Auth, Prisma, Ne
 ### 1. Clone and install
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 2. Set up environment variables
@@ -35,44 +35,47 @@ cp .env.example .env.local
 Fill in these values:
 
 **Neon (database)**
+
 - Go to [console.neon.tech](https://console.neon.tech)
 - Create a new project
 - Copy the connection string into `DATABASE_URL`
 
 **Better Auth**
+
 - Generate a secret: `openssl rand -base64 32`
 - Set `BETTER_AUTH_SECRET` to that value
 - Set `BETTER_AUTH_URL` to `http://localhost:3000` (locally)
 
 **Uploadthing**
+
 - Go to [uploadthing.com](https://uploadthing.com) and create an app
 - Copy your token into `UPLOADTHING_TOKEN`
 
 ### 3. Push database schema
 
 ```bash
-npm run db:push
+pnpm db:push
 ```
 
-This creates all tables in your Neon database via Prisma.
+This creates all tables in your Neon database via Drizzle.
 
 ### 4. Run dev server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ---
 
 ## Making yourself an admin
 
-After creating your first account, run this in Prisma Studio:
+After creating your first account, open Drizzle Studio:
 
 ```bash
-npm run db:studio
+pnpm db:studio
 ```
 
-Find your user in the `User` table and change `role` from `USER` to `ADMIN`.
+Find your user in the `user` table and change `role` from `USER` to `ADMIN`.
 
 ---
 
@@ -80,9 +83,8 @@ Find your user in the `User` table and change `role` from `USER` to `ADMIN`.
 
 1. Push to GitHub
 2. Import repo in [vercel.com](https://vercel.com)
-3. Add the Neon integration in Vercel (auto-wires `DATABASE_URL`)
-4. Add `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (your production URL), `UPLOADTHING_TOKEN`, and `NEXT_PUBLIC_APP_URL` in Vercel environment variables
-5. Deploy
+3. Add `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (your production URL), `UPLOADTHING_TOKEN`, and `NEXT_PUBLIC_APP_URL` in Vercel environment variables
+4. Deploy
 
 ---
 
@@ -101,11 +103,10 @@ components/         # Shared UI components
 lib/
   auth.ts           # Better Auth server config
   auth-client.ts    # Better Auth browser client
-  prisma.ts         # Prisma client singleton
+  db.ts             # Drizzle client
+  schema.ts         # Database schema & inferred types
   actions.ts        # Server actions
   uploadthing.ts    # Uploadthing client helpers
   utils.ts          # Shared utilities
-prisma/
-  schema.prisma     # Database schema
-proxy.ts            # Route protection (Next.js 16)
+drizzle.config.ts   # Drizzle Kit config
 ```
