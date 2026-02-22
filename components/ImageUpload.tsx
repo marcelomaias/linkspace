@@ -65,7 +65,7 @@ export default function ImageUpload({
     <div className="flex flex-col gap-1.5">
       {label && <span className="form-label">{label}</span>}
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 overflow-hidden">
         {/* Preview */}
         {preview && (
           <div
@@ -88,7 +88,7 @@ export default function ImageUpload({
           </div>
         )}
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 overflow-hidden min-w-0 flex-1">
           <UploadButton
             endpoint={endpoint}
             disabled={disabled}
@@ -96,15 +96,12 @@ export default function ImageUpload({
               setError(null);
               const file = files[0];
               if (!file) return files;
-
-              // Show local preview immediately
               setPreview(URL.createObjectURL(file));
-
               const err = await validateDimensions(file, maxWidth, maxHeight);
               if (err) {
                 setError(err);
                 setPreview(null);
-                return []; // abort upload
+                return [];
               }
               return files;
             }}
@@ -119,7 +116,8 @@ export default function ImageUpload({
               setError(err.message ?? "Upload failed");
             }}
             appearance={{
-              button: "btn-secondary text-sm !text-[var(--color-text)]",
+              button:
+                "btn-secondary text-sm !w-full !text-[var(--color-text)] [&>span]:truncate [&>span]:block",
               allowedContent: "hidden",
             }}
           />
@@ -131,7 +129,7 @@ export default function ImageUpload({
                 setPreview(null);
                 onChange(null);
               }}
-              className="text-xs"
+              className="text-xs text-left"
               style={{ color: "var(--color-text-subtle)" }}
             >
               Remove
