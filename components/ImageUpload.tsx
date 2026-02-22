@@ -117,7 +117,11 @@ export default function ImageUpload({
             }}
             appearance={{
               button:
-                "btn-secondary text-sm !w-full !text-[var(--color-text)] [&>span]:truncate [&>span]:block",
+                "btn-secondary text-sm !w-full \
+                !text-[var(--color-text)] \
+                [&_svg]:w-4 [&_svg]:h-4 \
+                [&_svg]:text-[var(--color-text)] \
+                [&>span]:truncate [&>span]:block",
               allowedContent: "hidden",
             }}
           />
