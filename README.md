@@ -24,13 +24,13 @@ Manage all your links in a responsive grid. Drag to reorder, add, edit, or delet
 
 ### Link editing
 
-![Link Edit](https://raw.githubusercontent.com/marcelomaias/linkspace/main/public/screenshots/Link_Edit.png)
-
-Edit links inline with a label, URL, and optional custom icon.
-
 ![Dashboard Link Hover](https://raw.githubusercontent.com/marcelomaias/linkspace/main/public/screenshots/Dashboard_Link_Hover.png)
 
 Edit and delete actions appear on hover.
+
+![Link Edit](https://raw.githubusercontent.com/marcelomaias/linkspace/main/public/screenshots/Link_Edit.png)
+
+Edit links inline with a label, URL, and optional custom icon.
 
 ---
 
