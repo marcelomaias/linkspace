@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signUp } from "@/lib/auth-client";
 import { generateUsername } from "@/lib/utils";
-import ImageUpload from "@/components/ImageUpload";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -13,7 +12,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [pictureUrl, setPictureUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -39,7 +37,6 @@ export default function SignupPage() {
       password,
       // @ts-expect-error — custom fields via additionalFields
       username: generateUsername(email),
-      image: pictureUrl ?? undefined,
     });
 
     if (error) {
@@ -114,16 +111,6 @@ export default function SignupPage() {
             autoComplete="new-password"
           />
         </div>
-
-        <ImageUpload
-          endpoint="signupPicture"
-          value={pictureUrl}
-          onChange={setPictureUrl}
-          shape="circle"
-          size={64}
-          label="Profile picture (optional)"
-          disabled={pending}
-        />
 
         {error && <p className="form-error">{error}</p>}
 
