@@ -31,7 +31,7 @@ export default async function HomePage() {
             <div className="flex gap-3 flex-wrap">
               <Link
                 href="/signup"
-                className="btn bg-white text-[var(--color-brand)] font-semibold hover:bg-white/90 px-6 py-3"
+                className="btn bg-white text-(--color-brand) font-semibold hover:bg-white/90 px-6 py-3"
               >
                 Get started — it&apos;s free
               </Link>
@@ -58,7 +58,7 @@ export default async function HomePage() {
             },
             {
               title: "Dark mode",
-              body: "Looks great day or night. Automatically respects system preferences.",
+              body: "Looks great day or night. Toggle between light and dark with one click.",
             },
           ].map((f) => (
             <div key={f.title} className="surface p-6">
